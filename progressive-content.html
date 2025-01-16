@@ -17,6 +17,7 @@
         color: #333;
         padding: 20px;
       }
+
       p {
         margin-bottom: 16px;
       }
@@ -42,8 +43,28 @@
       }
 
       .toc h2 {
-        margin-bottom: 16px;
+        margin-bottom: 12px;
         color: #2d3748;
+      }
+
+      .toggle-all-btn {
+        width: 100%;
+        padding: 8px 12px;
+        margin-bottom: 16px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        color: #4a5568;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .toggle-all-btn:hover {
+        background: #f1f5f9;
+        color: #2b6cb0;
+        border-color: #2b6cb0;
       }
 
       .toc-list {
@@ -105,13 +126,15 @@
 
       .section-content {
         padding: 0 24px;
-        max-height: 0;
+        height: 0;
+        opacity: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease-out;
+        transition: opacity 0.3s ease-out;
       }
 
       .section-content.expanded {
-        max-height: 500px;
+        height: auto;
+        opacity: 1;
         padding: 16px 24px;
         border-top: 1px solid #e2e8f0;
       }
@@ -141,6 +164,7 @@
     <div class="container">
       <nav class="toc">
         <h2>Contents</h2>
+        <button id="toggle-all" class="toggle-all-btn">Expand All</button>
         <ul class="toc-list">
           <li><a href="#quick-overview" class="toc-link">Quick Overview</a></li>
           <li><a href="#how-it-works" class="toc-link">How It Works</a></li>
@@ -352,7 +376,29 @@
     </div>
 
     <script>
-      // Handle section expansion
+      // Track expanded state
+      let allExpanded = false;
+
+      // Handle toggle all button
+      const toggleAllBtn = document.getElementById("toggle-all");
+
+      const toggleAll = () => {
+        allExpanded = !allExpanded;
+        const sections = document.querySelectorAll(".content-section");
+        sections.forEach((section) => {
+          const content = section.querySelector(".section-content");
+          if (allExpanded) {
+            content.classList.add("expanded");
+          } else {
+            content.classList.remove("expanded");
+          }
+        });
+        toggleAllBtn.textContent = allExpanded ? "Collapse All" : "Expand All";
+      };
+
+      toggleAllBtn.addEventListener("click", toggleAll);
+
+      // Handle individual section expansion
       document.querySelectorAll(".section-header").forEach((header) => {
         header.addEventListener("click", () => {
           const section = header.closest(".content-section");
