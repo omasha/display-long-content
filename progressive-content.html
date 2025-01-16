@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progressive Content</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        line-height: 1.5;
+        color: #333;
+        padding: 20px;
+      }
+      p {
+        margin-bottom: 16px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(250px, 1fr) minmax(300px, 3fr);
+        gap: 40px;
+        position: relative;
+      }
+
+      .toc {
+        position: sticky;
+        top: 20px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+      }
+
+      .toc h2 {
+        margin-bottom: 16px;
+        color: #2d3748;
+      }
+
+      .toc-list {
+        list-style: none;
+      }
+
+      .toc-link {
+        display: block;
+        padding: 8px 12px;
+        color: #4a5568;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+
+      .toc-link:hover {
+        background: #f7fafc;
+        color: #2b6cb0;
+      }
+
+      .toc-link.active {
+        background: #ebf8ff;
+        color: #2b6cb0;
+        font-weight: 500;
+      }
+
+      .content-section {
+        margin-bottom: 24px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .section-header {
+        padding: 16px 24px;
+        background: #f8fafc;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: none;
+        width: 100%;
+        text-align: left;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #2d3748;
+      }
+
+      .section-header:hover {
+        background: #f1f5f9;
+      }
+
+      .section-preview {
+        padding: 16px 24px;
+        color: #4a5568;
+        font-weight: 500;
+      }
+
+      .section-content {
+        padding: 0 24px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
+
+      .section-content.expanded {
+        max-height: 500px;
+        padding: 16px 24px;
+        border-top: 1px solid #e2e8f0;
+      }
+
+      .chevron {
+        transition: transform 0.3s ease;
+      }
+
+      .expanded .chevron {
+        transform: rotate(180deg);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+
+        .toc {
+          position: relative;
+          top: 0;
+          margin-bottom: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="toc">
+        <h2>Contents</h2>
+        <ul class="toc-list">
+          <li><a href="#quick-overview" class="toc-link">Quick Overview</a></li>
+          <li><a href="#how-it-works" class="toc-link">How It Works</a></li>
+          <li>
+            <a href="#success-stories" class="toc-link">Success Stories</a>
+          </li>
+        </ul>
+      </nav>
+
+      <main>
+        <section id="quick-overview" class="content-section">
+          <button class="section-header">
+            Quick Overview
+            <svg
+              class="chevron"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="section-preview">
+            Our service helps businesses grow their online presence through
+            three key strategies.
+          </div>
+          <div class="section-content">
+            <p>
+              We combine social media management, content creation, and SEO
+              optimization to help businesses establish a strong digital
+              footprint. Our comprehensive approach ensures consistent brand
+              messaging across all platforms while driving meaningful engagement
+              with your target audience.
+            </p>
+            <p>
+              We combine social media management, content creation, and SEO
+              optimization to help businesses establish a strong digital
+              footprint. Our comprehensive approach ensures consistent brand
+              messaging across all platforms while driving meaningful engagement
+              with your target audience.
+            </p>
+            <p>
+              We combine social media management, content creation, and SEO
+              optimization to help businesses establish a strong digital
+              footprint. Our comprehensive approach ensures consistent brand
+              messaging across all platforms while driving meaningful engagement
+              with your target audience.
+            </p>
+            <p>
+              We combine social media management, content creation, and SEO
+              optimization to help businesses establish a strong digital
+              footprint. Our comprehensive approach ensures consistent brand
+              messaging across all platforms while driving meaningful engagement
+              with your target audience.
+            </p>
+            <p>
+              We combine social media management, content creation, and SEO
+              optimization to help businesses establish a strong digital
+              footprint. Our comprehensive approach ensures consistent brand
+              messaging across all platforms while driving meaningful engagement
+              with your target audience.
+            </p>
+          </div>
+        </section>
+
+        <section id="how-it-works" class="content-section">
+          <button class="section-header">
+            How It Works
+            <svg
+              class="chevron"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="section-preview">
+            A simple three-step process gets you started within 48 hours.
+          </div>
+          <div class="section-content">
+            <ul>
+              <li>
+                Initial Consultation: We analyze your current online presence
+                and business goals.
+              </li>
+              <li>
+                Strategy Development: Our team creates a customized digital
+                marketing plan.
+              </li>
+              <li>
+                Implementation: We execute the strategy while providing regular
+                performance updates.
+              </li>
+              <li>
+                Initial Consultation: We analyze your current online presence
+                and business goals.
+              </li>
+              <li>
+                Strategy Development: Our team creates a customized digital
+                marketing plan.
+              </li>
+              <li>
+                Implementation: We execute the strategy while providing regular
+                performance updates.
+              </li>
+              <li>
+                Initial Consultation: We analyze your current online presence
+                and business goals.
+              </li>
+              <li>
+                Strategy Development: Our team creates a customized digital
+                marketing plan.
+              </li>
+              <li>
+                Implementation: We execute the strategy while providing regular
+                performance updates.
+              </li>
+              <li>
+                Initial Consultation: We analyze your current online presence
+                and business goals.
+              </li>
+              <li>
+                Strategy Development: Our team creates a customized digital
+                marketing plan.
+              </li>
+              <li>
+                Implementation: We execute the strategy while providing regular
+                performance updates.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="success-stories" class="content-section">
+          <button class="section-header">
+            Success Stories
+            <svg
+              class="chevron"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="section-preview">
+            Over 50 businesses have grown their revenue by 40% or more.
+          </div>
+          <div class="section-content">
+            <p>
+              Our clients range from local boutiques to national retailers. One
+              recent success story is a local bakery that increased online
+              orders by 127% in just three months through targeted social media
+              campaigns and website optimization. Another client, a B2B software
+              company, saw their lead generation increase by 84% after
+              implementing our recommended content strategy.
+            </p>
+            <p>
+              Our clients range from local boutiques to national retailers. One
+              recent success story is a local bakery that increased online
+              orders by 127% in just three months through targeted social media
+              campaigns and website optimization. Another client, a B2B software
+              company, saw their lead generation increase by 84% after
+              implementing our recommended content strategy.
+            </p>
+            <p>
+              Our clients range from local boutiques to national retailers. One
+              recent success story is a local bakery that increased online
+              orders by 127% in just three months through targeted social media
+              campaigns and website optimization. Another client, a B2B software
+              company, saw their lead generation increase by 84% after
+              implementing our recommended content strategy.
+            </p>
+            <p>
+              Our clients range from local boutiques to national retailers. One
+              recent success story is a local bakery that increased online
+              orders by 127% in just three months through targeted social media
+              campaigns and website optimization. Another client, a B2B software
+              company, saw their lead generation increase by 84% after
+              implementing our recommended content strategy.
+            </p>
+            <p>
+              Our clients range from local boutiques to national retailers. One
+              recent success story is a local bakery that increased online
+              orders by 127% in just three months through targeted social media
+              campaigns and website optimization. Another client, a B2B software
+              company, saw their lead generation increase by 84% after
+              implementing our recommended content strategy.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      // Handle section expansion
+      document.querySelectorAll(".section-header").forEach((header) => {
+        header.addEventListener("click", () => {
+          const section = header.closest(".content-section");
+          const content = section.querySelector(".section-content");
+          content.classList.toggle("expanded");
+        });
+      });
+
+      // Handle scroll spy for TOC
+      const sections = document.querySelectorAll(".content-section");
+      const tocLinks = document.querySelectorAll(".toc-link");
+
+      const observerOptions = {
+        threshold: 0.5,
+        rootMargin: "-20% 0px -35% 0px",
+      };
+
+      const observerCallback = (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            tocLinks.forEach((link) => {
+              link.classList.remove("active");
+              if (link.getAttribute("href") === "#" + entry.target.id) {
+                link.classList.add("active");
+              }
+            });
+          }
+        });
+      };
+
+      const observer = new IntersectionObserver(
+        observerCallback,
+        observerOptions
+      );
+      sections.forEach((section) => observer.observe(section));
+
+      // Smooth scroll for TOC links
+      document.querySelectorAll(".toc-link").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute("href");
+          const targetSection = document.querySelector(targetId);
+          targetSection.scrollIntoView({ behavior: "smooth" });
+        });
+      });
+    </script>
+  </body>
+</html>
