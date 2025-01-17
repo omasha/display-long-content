@@ -153,6 +153,27 @@
       .toc-bottom {
         display: none;
       }
+      .bottom-menu-toggle {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: white;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+      }
+
+      .bottom-menu-toggle.active {
+        transform: rotate(180deg);
+      }
 
       @media (max-width: 768px) {
         .container {
@@ -164,27 +185,51 @@
           top: 0;
           margin-bottom: 24px;
         }
+        @media (max-width: 768px) {
+          .bottom-menu-toggle {
+            display: flex;
+          }
 
-        .toc-bottom {
-          display: block;
-          margin-top: 40px;
-          position: static;
-        }
-        .expanded-state .toc-bottom {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: white;
-          padding: 20px;
-          box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-          z-index: 10;
-          margin-top: 0;
+          .toc-bottom {
+            display: block;
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            transition: bottom 0.3s ease-in-out;
+          }
+
+          .toc-bottom.visible {
+            bottom: 0;
+          }
+
+          /* .expanded-state .toc-bottom {
+            position: fixed;
+            bottom: 0;
+          } */
         }
       }
     </style>
   </head>
   <body>
+    <button id="toggle-bottom-menu" class="bottom-menu-toggle">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
     <div class="container">
       <nav class="toc">
         <button id="toggle-all" class="toggle-all-btn">Expand All</button>
@@ -552,17 +597,27 @@
         childList: true,
         subtree: true,
       });
+
+      const toggleBottomMenuBtn = document.getElementById("toggle-bottom-menu");
+      const bottomMenu = document.getElementById("sticky-toc");
+
+      toggleBottomMenuBtn.addEventListener("click", () => {
+        bottomMenu.classList.toggle("visible");
+        toggleBottomMenuBtn.classList.toggle("active");
+        adjustPadding();
+      });
     </script>
     <script>
       function adjustPadding() {
         const bottomDiv = document.getElementById("sticky-toc");
         const mainContent = document.getElementById("main-content");
-
-        // Get the computed height of the bottom div
         const bottomDivHeight = bottomDiv.offsetHeight;
 
-        // Set the padding-bottom of the content
-        mainContent.style.paddingBottom = `${bottomDivHeight}px`;
+        if (bottomDiv.classList.contains("visible")) {
+          mainContent.style.paddingBottom = `${bottomDivHeight}px`;
+        } else {
+          mainContent.style.paddingBottom = "0";
+        }
       }
 
       // Run on initial load
