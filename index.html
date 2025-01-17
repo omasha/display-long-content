@@ -553,27 +553,49 @@
         });
       });
 
-      // Handle TOC link clicks and smooth scroll
+      // Update TOC link clicks and smooth scroll with toggle functionality
+      // that respects the global expanded state
       document.querySelectorAll(".toc-link").forEach((link) => {
         link.addEventListener("click", (e) => {
           e.preventDefault();
-          const targetId = link.getAttribute("href").substring(1); // Remove the #
+          const targetId = link.getAttribute("href").substring(1);
           const targetSection = document.querySelector("#" + targetId);
+
+          // Only toggle if we're not in "Expand All" mode,
+          // or if we are expanding the section
+          const content = targetSection.querySelector(".section-content");
+          if (!allExpanded || !content.classList.contains("expanded")) {
+            content.classList.toggle("expanded");
+          }
+
+          // Smooth scroll to the section
           targetSection.scrollIntoView({ behavior: "smooth" });
+
+          // Update active state in TOC
           updateActiveState(targetId);
         });
       });
 
-      // Update TOC if content changes dynamically
       const contentObserver = new MutationObserver(() => {
         generateTOC();
-        // Reattach click listeners to new TOC items
+        // Reattach click listeners to new TOC items with toggle functionality
         document.querySelectorAll(".toc-link").forEach((link) => {
           link.addEventListener("click", (e) => {
             e.preventDefault();
             const targetId = link.getAttribute("href").substring(1);
             const targetSection = document.querySelector("#" + targetId);
+
+            // Only toggle if we're not in "Expand All" mode,
+            // or if we are expanding the section
+            const content = targetSection.querySelector(".section-content");
+            if (!allExpanded || !content.classList.contains("expanded")) {
+              content.classList.toggle("expanded");
+            }
+
+            // Smooth scroll to the section
             targetSection.scrollIntoView({ behavior: "smooth" });
+
+            // Update active state in TOC
             updateActiveState(targetId);
           });
         });
