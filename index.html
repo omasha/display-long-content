@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Progressive Content</title>
+    <title>My very long page</title>
     <style>
       * {
         box-sizing: border-box;
@@ -20,6 +20,9 @@
 
       p {
         margin-bottom: 16px;
+      }
+      h2 {
+        margin-bottom: 24px;
       }
 
       .container {
@@ -147,6 +150,10 @@
         transform: rotate(180deg);
       }
 
+      .toc-bottom {
+        display: none;
+      }
+
       @media (max-width: 768px) {
         .container {
           grid-template-columns: 1fr;
@@ -157,24 +164,37 @@
           top: 0;
           margin-bottom: 24px;
         }
+
+        .toc-bottom {
+          display: block;
+          margin-top: 40px;
+          position: static;
+        }
+        .expanded-state .toc-bottom {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: white;
+          padding: 20px;
+          box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+          z-index: 10;
+          margin-top: 0;
+        }
       }
     </style>
   </head>
   <body>
     <div class="container">
       <nav class="toc">
-        <h2>Contents</h2>
         <button id="toggle-all" class="toggle-all-btn">Expand All</button>
-        <ul class="toc-list">
-          <li><a href="#quick-overview" class="toc-link">Quick Overview</a></li>
-          <li><a href="#how-it-works" class="toc-link">How It Works</a></li>
-          <li>
-            <a href="#success-stories" class="toc-link">Success Stories</a>
-          </li>
+        <ul class="toc-list" id="toc-list">
+          <!-- TOC items will be dynamically generated -->
         </ul>
       </nav>
 
-      <main>
+      <main id="main-content">
+        <h2>My very long page</h2>
         <section id="quick-overview" class="content-section">
           <button class="section-header">
             Quick Overview
@@ -373,18 +393,55 @@
           </div>
         </section>
       </main>
+      <nav class="toc-bottom" id="sticky-toc">
+        <button class="toggle-all-btn">Expand All</button>
+        <ul class="toc-list">
+          <!-- TOC items will be dynamically generated -->
+        </ul>
+      </nav>
     </div>
 
     <script>
       // Track expanded state
       let allExpanded = false;
 
-      // Handle toggle all button
-      const toggleAllBtn = document.getElementById("toggle-all");
+      // Generate TOC from sections
+      const generateTOC = () => {
+        const tocLists = document.querySelectorAll(".toc-list");
+        const sections = document.querySelectorAll(".content-section");
+
+        tocLists.forEach((tocList) => {
+          tocList.innerHTML = ""; // Clear existing items
+
+          sections.forEach((section) => {
+            const sectionId = section.id;
+            const sectionTitle = section
+              .querySelector(".section-header")
+              .textContent.trim();
+
+            const li = document.createElement("li");
+            const link = document.createElement("a");
+
+            link.href = `#${sectionId}`;
+            link.className = "toc-link";
+            link.textContent = sectionTitle;
+
+            li.appendChild(link);
+            tocList.appendChild(li);
+          });
+        });
+      };
+
+      // Initialize TOC
+      generateTOC();
+
+      // Handle toggle all buttons
+      const toggleAllBtns = document.querySelectorAll(".toggle-all-btn");
 
       const toggleAll = () => {
         allExpanded = !allExpanded;
         const sections = document.querySelectorAll(".content-section");
+        container.classList.toggle("expanded-state", allExpanded);
         sections.forEach((section) => {
           const content = section.querySelector(".section-content");
           if (allExpanded) {
@@ -393,10 +450,12 @@
             content.classList.remove("expanded");
           }
         });
-        toggleAllBtn.textContent = allExpanded ? "Collapse All" : "Expand All";
+        toggleAllBtns.forEach((btn) => {
+          btn.textContent = allExpanded ? "Collapse All" : "Expand All";
+        });
       };
 
-      toggleAllBtn.addEventListener("click", toggleAll);
+      toggleAllBtns.forEach((btn) => btn.addEventListener("click", toggleAll));
 
       // Handle individual section expansion
       document.querySelectorAll(".section-header").forEach((header) => {
@@ -444,6 +503,47 @@
           targetSection.scrollIntoView({ behavior: "smooth" });
         });
       });
+
+      // Update TOC if content changes dynamically
+      const contentObserver = new MutationObserver(() => {
+        generateTOC();
+        // Reattach smooth scroll listeners to new TOC items
+        document.querySelectorAll(".toc-link").forEach((link) => {
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute("href");
+            const targetSection = document.querySelector(targetId);
+            targetSection.scrollIntoView({ behavior: "smooth" });
+          });
+        });
+      });
+
+      contentObserver.observe(document.getElementById("main-content"), {
+        childList: true,
+        subtree: true,
+      });
+    </script>
+    <script>
+      function adjustPadding() {
+        const bottomDiv = document.getElementById("sticky-toc");
+        const mainContent = document.getElementById("main-content");
+
+        // Get the computed height of the bottom div
+        const bottomDivHeight = bottomDiv.offsetHeight;
+
+        // Set the padding-bottom of the content
+        mainContent.style.paddingBottom = `${bottomDivHeight}px`;
+      }
+
+      // Run on initial load
+      adjustPadding();
+
+      // Run on window resize
+      window.addEventListener("resize", adjustPadding);
+
+      // Optional: Use ResizeObserver to detect content changes in the bottom div
+      const resizeObserver = new ResizeObserver(adjustPadding);
+      resizeObserver.observe(document.getElementById("bottomDiv"));
     </script>
   </body>
 </html>

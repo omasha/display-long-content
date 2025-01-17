@@ -1,1 +1,6 @@
-scratch*
+# Ignore everything
+*
+*/*
+
+# But not index.html
+!index.html
