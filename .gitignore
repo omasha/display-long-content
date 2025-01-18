@@ -2,5 +2,6 @@
 *
 */*
 
-# But not index.html
+# But not index.html or readme
 !index.html
+!README.md
